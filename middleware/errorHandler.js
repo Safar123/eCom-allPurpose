@@ -57,7 +57,6 @@ module.exports = (err, req, res, next) => {
 
     if(process.env.DEV_ENV==='production'){
       
-
         if(err.name ==='CastError') err =handleCastErrorDB(err)
 
         if(err.code ===11000) err = handleDuplicateDB(err)
