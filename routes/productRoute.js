@@ -1,4 +1,5 @@
 const express = require("express");
+const { routeProtector } = require("../controller/authController");
 const {
     allProducts,
     addNewProduct,
@@ -14,7 +15,7 @@ const router = express.Router();
 router
     .route("/products")
     .get(allProducts)
-    .post(uploadProductImage, resizeProductsImage ,addNewProduct);
+    .post(routeProtector, uploadProductImage, resizeProductsImage ,addNewProduct);
 router
     .route("/products/:id")
     .patch(updateProduct)
