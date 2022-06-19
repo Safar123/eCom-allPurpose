@@ -17,6 +17,8 @@ const handleValidationDB =err=>{
     const message =` Invalid user inputs. ${errors.join('. ')}`;
     return new GlobalError(message, 400);
 }
+const handleInvalidJWT=()=> new GlobalError('Invalid user information. Please try logging in again', 401);
+const handleExpiredToken = ()=> new GlobalError('Token has expired. Please log in again', 401)
 
 const errorInDevelopment =(err,res)=>{
 //!In development mode printing out all of the error stack
@@ -62,6 +64,10 @@ module.exports = (err, req, res, next) => {
         if(err.code ===11000) err = handleDuplicateDB(err)
 
         if(err.name ==='ValidationError') err = handleValidationDB (err)
+
+        if (err.name ==='JsonWebTokenError') err = handleInvalidJWT()
+
+        if(err.name ==='TokenExpiredError') err = handleExpiredToken()
         
         errorInProduction(err,res)
     }
